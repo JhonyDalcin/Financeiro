@@ -1,0 +1,12 @@
+target-version = "py312"
+line-length = 100
+extend-exclude = ["venv", "staticfiles", "static/vendor"]
+
+[lint]
+select = ["E", "F", "I", "UP", "B", "DJ"]
+
+[lint.per-file-ignores]
+"**/migrations/*" = ["E501"]
+
+[format]
+quote-style = "single"

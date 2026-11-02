@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block conteudo %}
+<h1 class="h4 mb-3">Início</h1>
+<div class="row g-3">
+  <div class="col-12 col-md-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="h5 card-title">Cadastros</h2>
+        <ul class="list-unstyled mb-0">
+          <li>
+            <a href="{% url 'cadastros:categoria_lista' %}">Categorias</a>
+          </li>
+          <li>
+            <a href="{% url 'cadastros:subcategoria_lista' %}">Subcategorias</a>
+          </li>
+          <li>
+            <a href="{% url 'cadastros:tipopagamento_lista' %}"
+              >Tipos de pagamento</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'cadastros:fontecredito_lista' %}"
+              >Fontes de crédito</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'cadastros:periodosalario_lista' %}"
+              >Períodos de salário</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Excluir {{ view.titulo|lower }} – Financeiro{% endblock %}
+
+{% block conteudo %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <h1 class="h4">Excluir {{ view.titulo|lower }}</h1>
+    {% if em_uso %}
+    <div class="alert alert-warning">
+      "{{ object }}" está em uso e não pode ser excluído.
+      {% if pode_inativar %}Você pode inativá-lo para que deixe de ser oferecido em novos registros.{% endif %}
+    </div>
+    {% if pode_inativar %}
+    <form
+      method="post"
+      action="{% url view.url_inativar object.pk %}"
+      class="d-inline"
+    >
+      {% csrf_token %}
+      <button type="submit" class="btn btn-warning">Inativar</button>
+    </form>
+    {% endif %}
+    <a class="btn btn-outline-secondary" href="{% url view.url_lista %}"
+      >Voltar</a
+    >
+    {% else %}
+    <p>Confirma a exclusão de "{{ object }}"?</p>
+    <form method="post" class="d-inline">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Excluir</button>
+    </form>
+    <a class="btn btn-outline-secondary" href="{% url view.url_lista %}"
+      >Cancelar</a
+    >
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

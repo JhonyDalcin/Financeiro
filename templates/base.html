@@ -1,0 +1,120 @@
+{% load static %}<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block titulo %}Financeiro{% endblock %}</title>
+    <link
+      id="tema-css"
+      rel="stylesheet"
+      href="{% static 'vendor/bootswatch/flatly.min.css' %}"
+      data-claro="{% static 'vendor/bootswatch/flatly.min.css' %}"
+      data-escuro="{% static 'vendor/bootswatch/darkly.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/app.css' %}" />
+    <script src="{% static 'js/tema.js' %}"></script>
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'nucleo:inicio' %}">Financeiro</a>
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav flex-row gap-3 me-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              >Cadastros</a
+            >
+            <ul class="dropdown-menu">
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{% url 'cadastros:categoria_lista' %}"
+                  >Categorias</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{% url 'cadastros:subcategoria_lista' %}"
+                  >Subcategorias</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{% url 'cadastros:tipopagamento_lista' %}"
+                  >Tipos de pagamento</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{% url 'cadastros:fontecredito_lista' %}"
+                  >Fontes de crédito</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{% url 'cadastros:periodosalario_lista' %}"
+                  >Períodos de salário</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+        {% endif %}
+        <div class="ms-auto d-flex align-items-center gap-2">
+          {% block navbar_extra %}{% endblock %} {% if user.is_authenticated %}
+          <a
+            class="btn btn-sm btn-outline-light"
+            href="{% url 'nucleo:trocar_senha' %}"
+            >{{ user.get_username }}</a
+          >
+          <form method="post" action="{% url 'nucleo:sair' %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-outline-light">
+              Sair
+            </button>
+          </form>
+          {% endif %}
+          <button
+            id="alternar-tema"
+            type="button"
+            class="btn btn-sm btn-outline-light"
+            title="Alternar entre tema claro e escuro"
+          >
+            Tema
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container-fluid py-3">
+      {% if messages %} {% for mensagem in messages %}
+      <div
+        class="alert alert-{{ mensagem.tags|default:'info' }} alert-dismissible"
+        role="alert"
+      >
+        {{ mensagem }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Fechar"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% block conteudo %}{% endblock %}
+    </main>
+
+    <script src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/htmx/htmx.min.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

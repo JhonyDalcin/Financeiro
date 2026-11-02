@@ -1,0 +1,35 @@
+{% extends 'cadastros/lista.html' %}
+
+{% block acima_da_tabela %}
+{% if lacunas_texto %}
+<div class="alert alert-warning">
+  Dias do mês sem período vigente hoje: {{ lacunas_texto }}. Os períodos
+  vigentes devem cobrir todos os dias (1 a 31).
+</div>
+{% endif %}
+
+<form
+  method="post"
+  action="{% url 'cadastros:periodosalario_encerrar' %}"
+  class="row g-2 align-items-end mb-3"
+>
+  {% csrf_token %}
+  <div class="col-auto">
+    <label class="form-label" for="id_data_fim"
+      >Encerrar vigência atual em</label
+    >
+    <input
+      type="date"
+      name="data_fim"
+      id="id_data_fim"
+      class="form-control"
+      required
+    />
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-outline-secondary">
+      Encerrar vigência
+    </button>
+  </div>
+</form>
+{% endblock %}
